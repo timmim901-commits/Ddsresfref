@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гей Поиск по сайтам</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a001f, #33001a);
+            color: #fff;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            color: #ff0066;
+            margin-bottom: 10px;
+            font-size: 3rem;
+        }
+        .subtitle {
+            text-align: center;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        .search-box {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        input {
+            padding: 18px;
+            width: 500px;
+            max-width: 90%;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 50px;
+            outline: none;
+        }
+        button {
+            padding: 18px 40px;
+            font-size: 1.3rem;
+            background: #ff0066;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .sites {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .site-card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 20px 10px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .site-card:hover {
+            background: rgba(255, 0, 102, 0.2);
+            transform: translateY(-10px) scale(1.08);
+        }
+        .site-card img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        .site-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        .warning {
+            text-align: center;
+            margin-top: 60px;
+            opacity: 0.6;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>ГЕЙ ПОИСК</h1>
+    <p class="subtitle">Введи запрос и выбирай сайт</p>
+
+    <div class="search-box">
+        <input type="text" id="query" placeholder="twink, muscle, bareback, russian gay...">
+        <button onclick="performSearch()">ПОИСК</button>
+    </div>
+
+    <div class="sites" id="sites"></div>
+
+    <div class="warning">
+        18+ • Только для взрослых • При нажатии открывается внешний сайт с твоим запросом
+    </div>
+
+    <script>
+        // Список сайтов с иконками и шаблонами поиска
+        const pornSites = [
+            {
+                name: "Pornhub Gay",
+                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Pornhub-logo.svg/512px-Pornhub-logo.svg.png",
+                searchUrl: "https://www.pornhub.com/gay/video/search?search="
+            },
+            {
+                name: "XVideos Gay",
+                logo: "https://www.xvideos.com/favicon.ico",
+                searchUrl: "https://www.xvideos.com/gay?k="
+            },
+            {
+                name: "XNXX Gay",
+                logo: "https://www.xnxx.com/favicon.ico",
+                searchUrl: "https://www.xnxx.com/search/"
+            },
+            {
+                name: "xHamster Gay",
+                logo: "https://xhamster.com/favicon.ico",
+                searchUrl: "https://xhamster.com/gay/search/"
+            },
+            {
+                name: "RedTube Gay",
+                logo: "https://www.redtube.com/favicon.ico",
+                searchUrl: "https://www.redtube.com/gay?search="
+            },
+            {
+                name: "YouPorn Gay",
+                logo: "https://www.youporn.com/favicon.ico",
+                searchUrl: "https://www.youporn.com/gay/search/"
+            },
+            {
+                name: "GayMaleTube",
+                logo: "https://www.gaymaletube.com/favicon.ico",
+                searchUrl: "https://www.gaymaletube.com/search/"
+            },
+            {
+                name: "IceGay",
+                logo: "https://www.icegay.tv/favicon.ico",
+                searchUrl: "https://www.icegay.tv/search/"
+            }
+        ];
+
+        function performSearch() {
+            const query = document.getElementById("query").value.trim();
+            if (!query) {
+                alert("Пожалуйста, введи запрос!");
+                return;
+            }
+
+            const container = document.getElementById("sites");
+            container.innerHTML = "";
+
+            pornSites.forEach(site => {
+                const card = document.createElement("div");
+                card.className = "site-card";
+                card.innerHTML = `
+                    <img src="${site.logo}" alt="${site.name}">
+                    <div class="site-name">${site.name}</div>
+                `;
+                
+                // При клике открываем сайт с запросом
+                card.onclick = () => {
+                    const fullUrl = site.searchUrl + encodeURIComponent(query);
+                    window.open(fullUrl, "_blank");
+                };
+
+                container.appendChild(card);
+            });
+        }
+
+        // Запуск поиска по нажатию Enter
+        document.getElementById("query").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                performSearch();
+            }
+        });
+    </script>
+</body>
+</html>
